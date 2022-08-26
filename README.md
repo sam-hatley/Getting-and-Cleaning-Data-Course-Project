@@ -97,11 +97,12 @@ names(dat)
  [41] "tBodyAcc-correlation()-X,Z"           "tBodyAcc-correlation()-Y,Z"           "tGravityAcc-mean()-X"                 "tGravityAcc-mean()-Y"    
 ```
 
+
 There's quite a lot of extra information here, but it does give an idea of what to start looking at: columns with mean data are labeled with _\*-mean()_, and columns with standard deviation data are labeled with _\*-std()_. Writing a function to find this information isn't complicated: we'll use grep with an OR operator ("|") and ask it to return the values with ```value = T```.
 ```R
 grep("mean|std",names(dat), value = T)
 ```
-```    
+```
 [45] "fBodyAcc-std()-Y"                "fBodyAcc-std()-Z"                "fBodyAcc-meanFreq()-X"           "fBodyAcc-meanFreq()-Y"          
 [49] "fBodyAcc-meanFreq()-Z"           "fBodyAccJerk-mean()-X"           "fBodyAccJerk-mean()-Y"           "fBodyAccJerk-mean()-Z"          
 [53] "fBodyAccJerk-std()-X"            "fBodyAccJerk-std()-Y"            "fBodyAccJerk-std()-Z"            "fBodyAccJerk-meanFreq()-X"      
