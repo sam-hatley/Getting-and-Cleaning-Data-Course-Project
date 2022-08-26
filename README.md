@@ -41,7 +41,7 @@ y_train <- read.table("./data/train/Y_train.txt")
 sub_train <- read.table("./data/train/subject_train.txt")
 ```
 
-At this point, we have six data frames with the raw data. I also want to import _features.txt_ to add context to the data and make it easier to work with down the line:
+At this point, we have six data frames with the raw data. I also want to import _features.txt_ to add context to the data and make it easier to work with down the line. This labels our data, and the names they've given us are descriptive enough to tell what kind of data we're looking at and it's purpose- the labels aren't _pretty_, but that's not a requirement here.
 ```R
 feats <- read.table("./data/features.txt",col.names = c("id","feature"))
 ```
@@ -114,7 +114,7 @@ grep("mean|std",names(dat), value = T)
 [77] "fBodyBodyGyroJerkMag-mean()"     "fBodyBodyGyroJerkMag-std()"      "fBodyBodyGyroJerkMag-meanFreq()"
 ```
 
-What stands out to me is that there are two values that complicates extracting the columns we need: _\*-mean()_ and _\*-meanFreq()_. We'll need to alter the regex to account for the parentheses following "mean".
+What stands out to me is that there are two values that complicate extracting the columns we need: _\*-mean()_ and _\*-meanFreq()_. We'll need to alter the regex to account for the parentheses following "mean".
 
 Ultimately, what I'd like to do is create a list with the names of each column I want to keep, starting with "subject" and "activity_label" (the first two rows), which we'll send to our original data frame to extract only those columns.
 ```R
@@ -123,4 +123,27 @@ append(vars,grep("mean\\(\\)|std\\(\\)",names(dat), value = T))
 select <- dat[vars]
 ```
 
+### Naming the activities in the data set descriptively
+As we saw in the beginning, the _activity\_label_ column is effectively a factor variable, and the data we're given already contains adequate labels for this purpose in _activity\_labels.txt_. We just need to grab this list, and apply those to the data we already have.
 
+We start by importing those labels into a table, much like what we did when importing the data originally:
+```R
+lbls <- read.table("./data/activity_labels.txt")
+lbls <- lbls$V2
+```
+
+Since we've got an ordered list of labels, all that's left to do is make the original column into a factor, and apply our list of labels.
+```R
+dat$activity_label <- as.factor(dat$activity_label)
+levels(dat$activity_label) <- lbls
+```
+We'll double-check to make sure that everything's been applied appropriately, and move on our way.
+```
+> class(dat$activity_label)
+[1] "factor"
+> summary(dat$activity_label)
+           WALKING   WALKING_UPSTAIRS WALKING_DOWNSTAIRS            SITTING           STANDING             LAYING 
+              1722               1544               1406               1777               1906               1944
+```
+### Appropriately labelling the data
+We accomplished this using the labels supplied to us when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project#merging-the-test-and-training-sets)

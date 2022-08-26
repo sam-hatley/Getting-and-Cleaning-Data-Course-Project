@@ -15,7 +15,6 @@ mergedata <- function(){
   sub <- rbind(sub_test,sub_train)
   
   #Using the supplied column names to name the columns
-  #These will be replaced with descriptive labels later
   colnames(x) <- feats$feature
   colnames(y) <- "activity_label"
   colnames(sub) <- "subject"
@@ -24,6 +23,7 @@ mergedata <- function(){
   dat <- cbind(sub,y,x)
   return(dat)
 }
+
 
 #Extract measurements on mean and standard deviation for each measurement
 extract <- function(dat){
@@ -35,11 +35,29 @@ extract <- function(dat){
   select <- dat[vars]
   return(select)
 }
-#Describes the activities in the data set
 
+
+#Describes the activities in the data set
+describe_activities <- function(df){
+  #Import the existing labels and make them into a list
+  lbls <- read.table("./data/activity_labels.txt")
+  lbls <- lbls$V2
+  
+  #Make the column into a factor variable
+  df$activity_label <- as.factor(df$activity_label)
+  
+  #Rename the activities to make them descriptive
+  levels(df$activity_label) <- lbls
+
+  return(df)
+}
 #Labels variables
+  #This is effectively accomplished within the extract() function
 
 #Creates a second, independent tidy data set with the average of each variable for each activity and each subject
 
 #Execution
-dat <- extract(mergedata())
+dat = mergedata()
+dat = extract(dat)
+dat = describe_activities(dat)
+head(dat[,1:9])
