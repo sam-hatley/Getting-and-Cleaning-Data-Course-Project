@@ -83,8 +83,9 @@ avg_csv <- function(dat){
   #Gets the average of each variable by subject and activity
   dat = summarise_all(dat,mean)
   
-  #Writes the data to output.csv
+  #Writes the data to output.csv & output.txt
   write.csv(dat,file="./data/output.csv")
+  write.table(dat,file = "./data/output.txt",row.names = F)
   
   return(dat)
 }

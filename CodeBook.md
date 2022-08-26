@@ -223,9 +223,11 @@ With this finished, all we need to do is get the means. Again, this is one line 
 ```R
 dat = summarise_all(dat,mean)
 ```
-Finally, we'll write this to a file. Personally, I prefer to work with *.csv files, so that's what we'll use here:
+Finally, we'll write this to a file. Personally, I prefer to work with \*.csv files, so that's what we'll use here. (Because the course demands a \*.txt file, we'll also generate that.)
 ```R
 write.csv(dat,file="./data/output.csv")
+write.table(dat,file = "./data/output.txt",row.names = F)
+
 ```
 ## Variables
 ### Variable Details
