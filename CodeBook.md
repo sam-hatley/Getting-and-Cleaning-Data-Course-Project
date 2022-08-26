@@ -1,6 +1,5 @@
 # Code Book
 ## Methodology
-## Methodology
 
 ### Making sense of the data
 The raw data was downloaded, unzipped, and put into the ./data folder of the repository, and came with a number of relevant files:
@@ -139,7 +138,7 @@ We'll double-check to make sure that everything's been applied appropriately, an
               1722               1544               1406               1777               1906               1944
 ```
 ### Appropriately labelling the data
-We applied basic labels when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project#labeling-the-data), but they're a bit difficult to read at a glance:
+We applied basic labels when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project/blob/main/CodeBook.md#merging-the-test-and-training-sets), but they're a bit difficult to read at a glance:
 ```
 > names(dat)
  [1] "subject"                     "activity"                    "tBodyAcc-mean()-X"           "tBodyAcc-mean()-Y"           "tBodyAcc-mean()-Z"          
@@ -228,8 +227,8 @@ Finally, we'll write this to a file. Personally, I prefer to work with *.csv fil
 ```R
 write.csv(dat,file="./data/output.csv")
 ```
-
-## Variable Details
+## Variables
+### Variable Details
 There are two variables, _subject_ and _activity_ that work to identify and categorise the other variables.
 
 _subject_ is a numeric variable which designates which subject the observations come from.
@@ -255,72 +254,139 @@ All other variables have between 4 and 6 components:
 
 Additional information about the how the data was captured can be found in README.txt.
 
-## List of variables
+### List of variables
 subject
+
 activity
+
 Time_Body_Accelerometer_Mean-X
+
 Time_Body_Accelerometer_Mean-Y
+
 Time_Body_Accelerometer_Mean-Z
+
 Time_Body_Accelerometer_STD-X
+
 Time_Body_Accelerometer_STD-Y
+
 Time_Body_Accelerometer_STD-Z
+
 Time_Gravity_Accelerometer_Mean-X
+
 Time_Gravity_Accelerometer_Mean-Y
+
 Time_Gravity_Accelerometer_Mean-Z
+
 Time_Gravity_Accelerometer_STD-X
+
 Time_Gravity_Accelerometer_STD-Y
+
 Time_Gravity_Accelerometer_STD-Z
+
 Time_Body_Accelerometer_JerkSignal_Mean-X
+
 Time_Body_Accelerometer_JerkSignal_Mean-Y
+
 Time_Body_Accelerometer_JerkSignal_Mean-Z
+
 Time_Body_Accelerometer_JerkSignal_STD-X
+
 Time_Body_Accelerometer_JerkSignal_STD-Y
+
 Time_Body_Accelerometer_JerkSignal_STD-Z
+
 Time_Body_Gyroscope_Mean-X
+
 Time_Body_Gyroscope_Mean-Y
+
 Time_Body_Gyroscope_Mean-Z
+
 Time_Body_Gyroscope_STD-X
+
 Time_Body_Gyroscope_STD-Y
+
 Time_Body_Gyroscope_STD-Z
+
 Time_Body_Gyroscope_JerkSignal_Mean-X
+
 Time_Body_Gyroscope_JerkSignal_Mean-Y
+
 Time_Body_Gyroscope_JerkSignal_Mean-Z
+
 Time_Body_Gyroscope_JerkSignal_STD-X
+
 Time_Body_Gyroscope_JerkSignal_STD-Y
+
 Time_Body_Gyroscope_JerkSignal_STD-Z
+
 Time_Body_Accelerometer_Magnet_Mean
+
 Time_Body_Accelerometer_Magnet_STD
+
 Time_Gravity_Accelerometer_Magnet_Mean
+
 Time_Gravity_Accelerometer_Magnet_STD
+
 Time_Body_Accelerometer_JerkSignal_Magnet_Mean
+
 Time_Body_Accelerometer_JerkSignal_Magnet_STD
+
 Time_Body_Gyroscope_Magnet_Mean
+
 Time_Body_Gyroscope_Magnet_STD
+
 Time_Body_Gyroscope_JerkSignal_Magnet_Mean
+
 Time_Body_Gyroscope_JerkSignal_Magnet_STD
+
 FFT_Body_Accelerometer_Mean-X
+
 FFT_Body_Accelerometer_Mean-Y
+
 FFT_Body_Accelerometer_Mean-Z
+
 FFT_Body_Accelerometer_STD-X
+
 FFT_Body_Accelerometer_STD-Y
+
 FFT_Body_Accelerometer_STD-Z
+
 FFT_Body_Accelerometer_JerkSignal_Mean-X
+
 FFT_Body_Accelerometer_JerkSignal_Mean-Y
+
 FFT_Body_Accelerometer_JerkSignal_Mean-Z
+
 FFT_Body_Accelerometer_JerkSignal_STD-X
+
 FFT_Body_Accelerometer_JerkSignal_STD-Y
+
 FFT_Body_Accelerometer_JerkSignal_STD-Z
+
 FFT_Body_Gyroscope_Mean-X
+
 FFT_Body_Gyroscope_Mean-Y
+
 FFT_Body_Gyroscope_Mean-Z
+
 FFT_Body_Gyroscope_STD-X
+
 FFT_Body_Gyroscope_STD-Y
+
 FFT_Body_Gyroscope_STD-Z
+
 FFT_Body_Accelerometer_Magnet_Mean
+
 FFT_Body_Accelerometer_Magnet_STD
+
 FFT_BodyBody_Accelerometer_JerkSignal_Magnet_Mean
+
 FFT_BodyBody_Accelerometer_JerkSignal_Magnet_STD
+
 FFT_BodyBody_Gyroscope_Magnet_Mean
+
 FFT_BodyBody_Gyroscope_Magnet_STD
+
 FFT_BodyBody_Gyroscope_JerkSignal_Magnet_Mean
+
 FFT_BodyBody_Gyroscope_JerkSignal_Magnet_STD
