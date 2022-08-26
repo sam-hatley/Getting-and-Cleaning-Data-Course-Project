@@ -16,7 +16,7 @@ mergedata <- function(){
   
   #Using the supplied column names to name the columns
   colnames(x) <- feats$feature
-  colnames(y) <- "activity_label"
+  colnames(y) <- "activity"
   colnames(sub) <- "subject"
   
   #Merge
@@ -44,13 +44,15 @@ describe_activities <- function(df){
   lbls <- lbls$V2
   
   #Make the column into a factor variable
-  df$activity_label <- as.factor(df$activity_label)
+  df$activity <- as.factor(df$activity)
   
   #Rename the activities to make them descriptive
-  levels(df$activity_label) <- lbls
+  levels(df$activity) <- lbls
 
   return(df)
 }
+
+
 #Label variables descriptively
 relabel <- function(dat){
   #Create an empty vector to add names to
@@ -74,10 +76,23 @@ relabel <- function(dat){
 }
 
 #Creates a second, independent tidy data set with the average of each variable for each activity and each subject
+avg_csv <- function(dat){
+  #Groups data by subject and activity
+  dat = group_by(dat,subject,activity)
+  
+  #Gets the average of each variable by subject and activity
+  dat = summarise_all(dat,mean)
+  
+  #Writes the data to output.csv
+  write.csv(dat,file="./data/output.csv")
+  
+  return(dat)
+}
 
 #Execution
+library(dplyr)
 dat = mergedata()
 dat = extract(dat)
 dat = describe_activities(dat)
 dat = relabel(dat)
-head(dat[,1:9])
+tidyData = avg_csv(dat)
