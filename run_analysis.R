@@ -51,8 +51,27 @@ describe_activities <- function(df){
 
   return(df)
 }
-#Labels variables
-  #This is effectively accomplished within the extract() function
+#Label variables descriptively
+relabel <- function(dat){
+  #Create an empty vector to add names to
+  datlabels = vector()
+  
+  #Go through each name in the dataframe, make changes with regex, and append it to the vector
+  for (label in names(dat)) {
+    label = gsub("^t","Time_",
+            gsub("^f","FFT_",
+            gsub("Acc","_Accelerometer",
+            gsub("Gyro","_Gyroscope",
+            gsub("Mag","_Magnet",
+            gsub("Jerk","_JerkSignal",
+            gsub("-mean\\(\\)","_Mean",
+            gsub("-std\\(\\)","_STD", label))))))))
+    datlabels = append(datlabels,label)
+  }
+  #Apply those names to the dataframe
+  colnames(dat) <- datlabels
+  return(dat)
+}
 
 #Creates a second, independent tidy data set with the average of each variable for each activity and each subject
 
@@ -60,4 +79,5 @@ describe_activities <- function(df){
 dat = mergedata()
 dat = extract(dat)
 dat = describe_activities(dat)
+dat = relabel(dat)
 head(dat[,1:9])

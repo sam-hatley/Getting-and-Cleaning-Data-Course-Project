@@ -39,14 +39,12 @@ y_train <- read.table("./data/train/Y_train.txt")
 sub_train <- read.table("./data/train/subject_train.txt")
 ```
 
-#### Labeling the data
-
->At this point, we have six data frames with the raw data. I also want to import _features.txt_ to add context to the data and make it easier to work with down the line. This labels our data, and the names they've given us are descriptive enough to tell what kind of data we're looking at and it's purpose- the labels aren't _pretty_, but that's not a requirement here.
-  
->```R
->feats <- read.table("./data/features.txt",col.names = c("id","feature"))
->```
->Normally, I'd try to accomplish this stepwise, but it made far mor sense to do this when we began to import the data, rather than after we'd already selected what variables we needed, as we'll rely on the labels to do so!
+At this point, we have six data frames with the raw data. I also want to import _features.txt_ to add context to the data and make it easier to work with down the line. This labels our data, and the names they've given us are descriptive enough to tell what kind of data we're looking at and it's purpose- the labels aren't _pretty_, but that's not a requirement for now.
+```R
+feats <- read.table("./data/features.txt",col.names = c("id","feature"))
+```
+Normally, I'd try to accomplish this stepwise, but it made far more sense to do this when we began to import the data, rather than after we'd already selected what variables we needed, as we'll rely on the labels to do so!
+We'll actually apply these labels right before we merge everything together.
 
 Just to be certain we're clear that these tables will actually align, it's worth checking the dimensions of each:
 ```
@@ -148,4 +146,58 @@ We'll double-check to make sure that everything's been applied appropriately, an
               1722               1544               1406               1777               1906               1944
 ```
 ### Appropriately labelling the data
-We accomplished this using the labels supplied to us when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project#labeling-the-data).
+We applied basic labels when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project#labeling-the-data), but they're a bit difficult to read at a glance:
+```
+> names(dat)
+ [1] "subject"                     "activity_label"              "tBodyAcc-mean()-X"           "tBodyAcc-mean()-Y"           "tBodyAcc-mean()-Z"          
+ [6] "tBodyAcc-std()-X"            "tBodyAcc-std()-Y"            "tBodyAcc-std()-Z"            "tGravityAcc-mean()-X"        "tGravityAcc-mean()-Y"       
+[11] "tGravityAcc-mean()-Z"        "tGravityAcc-std()-X"         "tGravityAcc-std()-Y"         "tGravityAcc-std()-Z"         "tBodyAccJerk-mean()-X"      
+[16] "tBodyAccJerk-mean()-Y"       "tBodyAccJerk-mean()-Z"       "tBodyAccJerk-std()-X"        "tBodyAccJerk-std()-Y"        "tBodyAccJerk-std()-Z"       
+[21] "tBodyGyro-mean()-X"          "tBodyGyro-mean()-Y"          "tBodyGyro-mean()-Z"          "tBodyGyro-std()-X"           "tBodyGyro-std()-Y"          
+[26] "tBodyGyro-std()-Z"           "tBodyGyroJerk-mean()-X"      "tBodyGyroJerk-mean()-Y"      "tBodyGyroJerk-mean()-Z"      "tBodyGyroJerk-std()-X"      
+[31] "tBodyGyroJerk-std()-Y"       "tBodyGyroJerk-std()-Z"       "tBodyAccMag-mean()"          "tBodyAccMag-std()"           "tGravityAccMag-mean()" 
+```
+It's worth looking at these and understanding how they've structured the names: now it's the variable, a "-", the kind of measurement, a "()", and in some cases, a "-" followed by the axis from which the measurement was taken. All of these are important, so we just need to replace each of these strings with something more appropriate.
+
+It's not immediately clear what the prefix "t" or "f" do, but that's explained in _features\_info.txt_:
+>The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+And further down the line:
+>Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+
+So, the prefix "t" denotes time, whle "f" denotes a FFT.
+
+"Acc" and "Gyro" are similarly described in the info document:
+>The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ.
+
+As is the term "Jerk":
+>Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals
+
+Which gives us a clear path forward. We need to:
+- replace the prefix "t" with "Time" and "f" with "FFT";
+- replace "Acc" with "Accelerometer" and "Gyro" with "Gyroscope";
+- replace "Jerk" with "Jerk Signal";
+- remove the "()" from "mean" and "std"; and
+- keep the axis indicator at the end.
+
+We'll do this with the ```gsub()``` function. Considering that we're working with functions and there are a lot of things to change, I'd rather do this with a ```for``` function. We'll create an empty vector for the names to go to, make the changes, and append them to the vector.
+```R
+for (label in names(dat)) {
+  label = gsub("^t","Time_",
+          gsub("^f","FFT_",
+          gsub("Acc","_Accelerometer",
+          gsub("Gyro","_Gyroscope",
+          gsub("Mag","_Magnet",
+          gsub("Jerk","_JerkSignal",
+          gsub("-mean()","_Mean",
+          gsub("-std()","_STD", label))))))))
+  datlabels = append(datlabels,label)
+  }
+```
+In the same function, we'll just need to apply those labels to our data:
+```R
+colnames(dat) <- datlabels
+```
+
+
+
