@@ -1,13 +1,11 @@
-# Getting and Cleaning Data Course Project
-Coursera, Data Science, Getting and Cleaning Data Course Project
+# Getting and Cleaning Data: Course Project
 
 ## What the script does
 This script is broken down by functions for readability. Overall, it:
-- executes a function to import, label, and merge the relevant data sets;
-- executes a function to extract only the means and standard deviations from each measurement;
-- Uses descriptive activity names to name the activities in the data set
-Appropriately labels the data set with descriptive variable names. 
-From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+- imports and merges the relevant data sets;
+- extracts the means and standard deviations from each measurement;
+- labels activities with the supplied activity names;
+- returns a csv that has the average of each variable for each activity and subject
 
 ## Methodology
 
@@ -41,10 +39,16 @@ y_train <- read.table("./data/train/Y_train.txt")
 sub_train <- read.table("./data/train/subject_train.txt")
 ```
 
+#### Labeling the data
+
 At this point, we have six data frames with the raw data. I also want to import _features.txt_ to add context to the data and make it easier to work with down the line. This labels our data, and the names they've given us are descriptive enough to tell what kind of data we're looking at and it's purpose- the labels aren't _pretty_, but that's not a requirement here.
+
 ```R
 feats <- read.table("./data/features.txt",col.names = c("id","feature"))
 ```
+Normally, I'd try to accomplish this stepwise, but it made far mor sense to do this when we began to import the data, rather than after we'd already selected what variables we needed, as we'll rely on the labels to do so!
+
+
 
 Just to be certain we're clear that these tables will actually align, it's worth checking the dimensions of each:
 ```
@@ -146,4 +150,4 @@ We'll double-check to make sure that everything's been applied appropriately, an
               1722               1544               1406               1777               1906               1944
 ```
 ### Appropriately labelling the data
-We accomplished this using the labels supplied to us when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project#merging-the-test-and-training-sets)
+We accomplished this using the labels supplied to us when we [merged the test and training sets](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project#merging-the-test-and-training-sets).
