@@ -252,7 +252,7 @@ All other variables have between 4 and 6 components:
 - "Mean" or "STD" which tells you if the measurement is a mean of that subject and activity, or the standard deviation
 - In some cases, a suffix "-X", "-Y", or "-Z" that describes which axis the measurement was taken from
 
-Additional information about the how the data was captured can be found in README.txt.
+Additional information about the how the data was captured can be found in [README.txt](https://github.com/sam-hatley/Getting-and-Cleaning-Data-Course-Project/blob/main/data/README.txt).
 
 ### List of variables
 subject
